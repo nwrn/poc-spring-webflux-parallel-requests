@@ -31,10 +31,10 @@ public class ProcessController {
      * @return resultado do processo 1
      */
     @GetMapping("/processo1")
-    public Flux<ProcessResult> executarProcessoUm(
+    public Mono<ProcessResult> executarProcessoUm(
             @RequestParam(name = "segundos", defaultValue = "3") int segundos) {
         log.info("Requisição recebida para processo 1 com duração de {} segundos", segundos);
-        return Flux.merge(processService.executarProcessoUm(segundos));
+        return processService.executarProcessoUm(segundos);
     }
 
     /**
@@ -43,10 +43,10 @@ public class ProcessController {
      * @return resultado do processo 2
      */
     @GetMapping("/processo2")
-    public Flux<ProcessResult> executarProcesso2(
+    public Mono<ProcessResult> executarProcesso2(
             @RequestParam(name = "segundos", defaultValue = "5") int segundos) {
         log.info("Requisição recebida para processo 2 com duração de {} segundos", segundos);
-        return Flux.merge(processService.executarProcessoDois(segundos));
+        return processService.executarProcessoDois(segundos);
     }
 
     /**
@@ -56,34 +56,15 @@ public class ProcessController {
      */
     @GetMapping("/executar-ambos")
     public Flux<ProcessResult> executarAmbosProcessos(
-            @RequestParam(name = "segundos1", defaultValue = "3") int segundosProcesso1,
-            @RequestParam(name = "segundos2", defaultValue = "5") int segundosProcesso2) {
+            @RequestParam(name = "segundos", defaultValue = "3") int segundosProcesso1,
+            @RequestParam(name = "segundos", defaultValue = "5") int segundosProcesso2) {
 
         log.info("Requisição recebida para executar ambos processos");
 
         Mono<ProcessResult> processo1 = processService.executarProcessoUm(segundosProcesso1);
         Mono<ProcessResult> processo2 = processService.executarProcessoDois(segundosProcesso2);
-        Mono<ProcessResult> processo3 = processService.executarProcessoUm(segundosProcesso1);
-        Mono<ProcessResult> processo4 = processService.executarProcessoDois(segundosProcesso2);
-        Mono<ProcessResult> processo5 = processService.executarProcessoUm(segundosProcesso1);
-        Mono<ProcessResult> processo6 = processService.executarProcessoDois(segundosProcesso2);
-        Mono<ProcessResult> processo7 = processService.executarProcessoUm(segundosProcesso1);
-        Mono<ProcessResult> processo8 = processService.executarProcessoDois(segundosProcesso2);
-        Mono<ProcessResult> processo9 = processService.executarProcessoUm(segundosProcesso1);
-        Mono<ProcessResult> processo10 = processService.executarProcessoDois(segundosProcesso2);
-
 
         // O Flux.merge combina os resultados na ordem em que forem completados
-        return Flux.merge(
-                processo1,
-                processo2,
-                processo3,
-                processo4,
-                processo5,
-                processo6,
-                processo7,
-                processo8,
-                processo9,
-                processo10);
+        return Flux.merge(processo1, processo2);
     }
 }

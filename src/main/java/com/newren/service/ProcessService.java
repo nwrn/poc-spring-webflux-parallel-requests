@@ -32,7 +32,7 @@ public class ProcessService {
                 .map(
                         i -> {
                             long executionTime = System.currentTimeMillis() - startTime;
-                            String response = "Processo 1 concluído: "+processId+" em "+executionTime+" segundos";
+                            String response = "[Processo-1-"+i+"] concluído: "+processId+" em "+executionTime+" segundos";
                             log.info(response);
                             return new ProcessResult(
                                     processId,
@@ -56,7 +56,7 @@ public class ProcessService {
         return Mono.delay(Duration.ofMillis(segundos))
                 .map(i -> {
                     long executionTime = System.currentTimeMillis() - startTime;
-                    String response = "Processo 2 concluído: "+processId+" em "+executionTime+" segundos";
+                    String response = "[Processo-2-"+i+"] concluído: "+processId+" em "+executionTime+" segundos";
                     log.info(response);
                     return new ProcessResult(
                             processId,

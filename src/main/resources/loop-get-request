@@ -1,5 +1,5 @@
 while true; do
   echo -e "\nGET /executar-ambos"
-  curl "http://localhost:8080/api/executar-ambos?segundos1=100&segundos2=100"
+  curl "http://localhost:8080/api/executar-ambos?segundos1=1&segundos2=1"
   #sleep 1  # Espera 1 segundo entre as requisições (opcional)
 done
